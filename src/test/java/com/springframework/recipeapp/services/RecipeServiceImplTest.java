@@ -36,7 +36,6 @@ public class RecipeServiceImplTest {
 
     @Test
     public void getRecipes() {
-
         Recipe recipe = new Recipe();
         HashSet recipeData = new HashSet();
         recipeData.add(recipe);
