@@ -21,11 +21,14 @@ public class Recipe {
     private String source;
     private String url;
 
+    @Lob
+    private String directions;
+
     @Enumerated(value = EnumType.STRING)
     private Difficulty difficulty;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
-    private Set<Ingredient> ingredients;
+    private Set<Ingredient> ingredients = new HashSet<>();
 
     @Lob
     private Byte[] images;
