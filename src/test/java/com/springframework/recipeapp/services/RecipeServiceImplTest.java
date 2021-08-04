@@ -36,15 +36,17 @@ public class RecipeServiceImplTest {
 
     @Test
     public void getRecipes() {
-        Recipe recipe = new Recipe();
-        HashSet recipeData = new HashSet();
-        recipeData.add(recipe);
+        //given
+        Set<Recipe> recipesData = new HashSet<>();
+        recipesData.add(new Recipe());
 
-        when(recipeRepository.findAll()).thenReturn(recipeData);
+        when(recipeRepository.findAll()).thenReturn(recipesData);
 
-        Set<Recipe> recipes = recipeService.getRecipes();
+        //when
+        Set<Recipe> recipesResult = recipeService.getRecipes();
 
-        assertEquals(1, recipes.size());
+        //then
+        assertEquals(1, recipesResult.size());
         verify(recipeRepository, times(1)).findAll();
 
     }
