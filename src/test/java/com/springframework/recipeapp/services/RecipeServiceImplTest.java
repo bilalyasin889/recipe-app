@@ -1,5 +1,7 @@
 package com.springframework.recipeapp.services;
 
+import com.springframework.recipeapp.converters.RecipeCommandToRecipe;
+import com.springframework.recipeapp.converters.RecipeToRecipeCommand;
 import com.springframework.recipeapp.domain.Recipe;
 import com.springframework.recipeapp.repositories.RecipeRepository;
 import org.junit.After;
@@ -24,11 +26,17 @@ public class RecipeServiceImplTest {
     @Mock
     RecipeRepository recipeRepository;
 
+    @Mock
+    RecipeToRecipeCommand recipeToRecipeCommand;
+
+    @Mock
+    RecipeCommandToRecipe recipeCommandToRecipe;
+
     @Before
     public void setUp() throws Exception {
         closeable = MockitoAnnotations.openMocks(this);
 
-        recipeService = new RecipeServiceImpl(recipeRepository);
+        recipeService = new RecipeServiceImpl(recipeRepository, recipeCommandToRecipe, recipeToRecipeCommand);
     }
 
     @After
@@ -50,6 +58,7 @@ public class RecipeServiceImplTest {
         //then
         assertEquals(1, recipesResult.size());
         verify(recipeRepository, times(1)).findAll();
+        verify(recipeRepository, never()).findById(anyLong());
     }
 
     @Test
