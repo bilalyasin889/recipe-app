@@ -5,6 +5,7 @@ import com.springframework.recipeapp.converters.RecipeCommandToRecipe;
 import com.springframework.recipeapp.converters.RecipeToRecipeCommand;
 import com.springframework.recipeapp.domain.Recipe;
 import com.springframework.recipeapp.repositories.RecipeRepository;
+import com.springframework.recipeapp.exceptions.NotFoundException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -60,6 +61,23 @@ public class RecipeServiceImplTest {
         assertEquals(1, recipesResult.size());
         verify(recipeRepository, times(1)).findAll();
         verify(recipeRepository, never()).findById(anyLong());
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void getRecipeByIdTestNotFound() throws Exception {
+
+        Optional<Recipe> recipeOptional = Optional.empty();
+
+        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+
+        Recipe recipeReturned = recipeService.findById(1L);
+
+        //should go boom
+    }
+
+    @Test(expected = NumberFormatException.class)
+    public void getRecipeById_throws_NumberFormatException_when_id_is_not_a_number() throws Exception{
+        recipeService.findById(Long.valueOf("asd"));
     }
 
     @Test
